@@ -45,8 +45,10 @@ public class Activity_game extends AppCompatActivity implements View.OnClickList
     private ImageButton btn18;
     private ImageButton btn19;
 
-    private int capa2 = R.drawable.capa2;
+    private int capa = R.drawable.capa;
     private int rebel = R.drawable.rebel;
+    private int starwarscapa = R.drawable.starwarscapa;
+    private int starwarsclassic = R.drawable.starwarsclassic;
 
     private int darthsidious = R.drawable.darthsidious;
     private int darthvader = R.drawable.darthvader;
@@ -63,6 +65,7 @@ public class Activity_game extends AppCompatActivity implements View.OnClickList
     private int[] img; //array das imagens
 
     private MediaPlayer mediaPlayer;
+    private View view;
 
 
     //metodo principal
@@ -88,7 +91,21 @@ public class Activity_game extends AppCompatActivity implements View.OnClickList
         }, 5000);
 
         restartActivity ();
-    }
+
+//        view = new View(this);
+//        setContentView(view);
+//        getWindow().getDecorView().setSystemUiVisibility(
+//                View.SYSTEM_UI_FLAG_LAYOUT_STABLE |
+//                        View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION |
+//                        View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN |
+//                        View.SYSTEM_UI_FLAG_HIDE_NAVIGATION |
+//                        View.SYSTEM_UI_FLAG_FULLSCREEN |
+//                        View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
+//
+  }
+
+
+
 
 
     //metodo para reiniciar o jogo na mesma tela
@@ -238,7 +255,7 @@ public class Activity_game extends AppCompatActivity implements View.OnClickList
     //adiciona a capa sobre as imagens do background
     public void escondeCards() {
         for (int i = 0; i < buttons.length; i++) {
-            buttons[i].setImageResource (R.drawable.rebel);
+            buttons[i].setImageResource (R.drawable.starwarsclassicred);
         }
 
     }
@@ -269,8 +286,8 @@ public class Activity_game extends AppCompatActivity implements View.OnClickList
 
     //oculta novamente os cards
     public void ocultaCards(ImageButton card1, ImageButton card2) {
-        card1.setImageResource (R.drawable.rebel);
-        card2.setImageResource (R.drawable.rebel);
+        card1.setImageResource (R.drawable.starwarsclassicred);
+        card2.setImageResource (R.drawable.starwarsclassicred);
 
     }
 
