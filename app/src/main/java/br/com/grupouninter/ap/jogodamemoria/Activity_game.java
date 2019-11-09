@@ -46,6 +46,7 @@ public class Activity_game extends AppCompatActivity implements View.OnClickList
     private ImageButton btn19;
 
     private int capa2 = R.drawable.capa2;
+    private int rebel = R.drawable.rebel;
 
     private int darthsidious = R.drawable.darthsidious;
     private int darthvader = R.drawable.darthvader;
@@ -237,7 +238,7 @@ public class Activity_game extends AppCompatActivity implements View.OnClickList
     //adiciona a capa sobre as imagens do background
     public void escondeCards() {
         for (int i = 0; i < buttons.length; i++) {
-            buttons[i].setImageResource (R.drawable.capa);
+            buttons[i].setImageResource (R.drawable.rebel);
         }
 
     }
@@ -268,8 +269,8 @@ public class Activity_game extends AppCompatActivity implements View.OnClickList
 
     //oculta novamente os cards
     public void ocultaCards(ImageButton card1, ImageButton card2) {
-        card1.setImageResource (R.drawable.capa);
-        card2.setImageResource (R.drawable.capa);
+        card1.setImageResource (R.drawable.rebel);
+        card2.setImageResource (R.drawable.rebel);
 
     }
 
