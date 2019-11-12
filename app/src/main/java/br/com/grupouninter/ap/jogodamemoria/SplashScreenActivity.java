@@ -18,14 +18,14 @@ public class SplashScreenActivity extends AppCompatActivity  {
         handle.postDelayed (new Runnable () {
             @Override
             public void run() {
-                chamaMenu();
+                chamarMenu();
 
 
             }
         }, 5000);
     }
 
-    public void chamaMenu(){
+    public void chamarMenu(){
         Intent objIntent = new Intent (SplashScreenActivity.this, MainActivity.class);
         startActivity(objIntent);
         finish ();
