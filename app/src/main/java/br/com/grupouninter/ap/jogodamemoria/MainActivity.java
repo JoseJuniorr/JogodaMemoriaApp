@@ -22,16 +22,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        inicializaNovoJogo();
-        acionaEvento();
+        inicializarNovoJogo();
+        acionarEvento();
 
     }
 
-    public void inicializaNovoJogo(){
+    public void inicializarNovoJogo(){
         btnNovoJogo = findViewById(R.id.btnNovoJogo);
     }
 
-    public void acionaEvento(){
+    public void acionarEvento(){
         btnNovoJogo.setOnClickListener(this);
     }
 
