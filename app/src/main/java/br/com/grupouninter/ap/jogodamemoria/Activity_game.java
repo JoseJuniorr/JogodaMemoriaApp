@@ -75,17 +75,17 @@ public class Activity_game extends AppCompatActivity implements View.OnClickList
         setContentView (R.layout.activity_game);
 
         playSound ();
-        inicializaComponents ();
-        inicializaArrays ();
-        adicionaListener ();
-        exibeCards ();
+        inicializarComponents ();
+        inicializarArrays ();
+        adicionarListener ();
+        exibirCards ();
 
 
         Handler handle1 = new Handler ();
         handle1.postDelayed (new Runnable () {
             @Override
             public void run() {
-                escondeCards ();
+                esconderCards ();
 
             }
         }, 5000);
@@ -102,10 +102,7 @@ public class Activity_game extends AppCompatActivity implements View.OnClickList
 //                        View.SYSTEM_UI_FLAG_FULLSCREEN |
 //                        View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
 //
-  }
-
-
-
+    }
 
 
     //metodo para reiniciar o jogo na mesma tela
@@ -123,7 +120,7 @@ public class Activity_game extends AppCompatActivity implements View.OnClickList
 
 
     //metodo para mapeamento os componentes da tela do jogo via id
-    public void inicializaComponents() {
+    public void inicializarComponents() {
         textAcertos = findViewById (R.id.textAcertos);
         btn0 = findViewById (R.id.btn0);
         btn1 = findViewById (R.id.btn1);
@@ -149,7 +146,7 @@ public class Activity_game extends AppCompatActivity implements View.OnClickList
     }
 
     //metodo para inicializar os arrays de botoes e imagens
-    public void inicializaArrays() {
+    public void inicializarArrays() {
         buttons = new ImageButton[]{
                 btn0, btn1, btn2, btn3, btn4, btn5, btn6, btn7, btn8, btn9, btn10,
                 btn11, btn12, btn13, btn14, btn15, btn16, btn17, btn18, btn19
@@ -165,7 +162,7 @@ public class Activity_game extends AppCompatActivity implements View.OnClickList
     }
 
     //onclick de todos os buttons na mesma classe
-    public void adicionaListener() {
+    public void adicionarListener() {
         for (int i = 0; i < buttons.length; i++) {
             buttons[i].setOnClickListener (this);
         }
@@ -177,30 +174,30 @@ public class Activity_game extends AppCompatActivity implements View.OnClickList
 
         if (cardsVirados == 0) {
             primeiroCardVirado = cardJogado;
-            viraCard (cardJogado);
+            virarCard (cardJogado);
             cardsVirados = 1;
             primeiroCardVirado.setClickable (false);
 
         } else {
             segundoCardVirado = cardJogado;
             cardsVirados = 0;
-            viraCard (segundoCardVirado);
+            virarCard (segundoCardVirado);
             segundoCardVirado.setClickable (false);
 
 
-            if (comparaCards (primeiroCardVirado, segundoCardVirado)) {
+            if (compararCards (primeiroCardVirado, segundoCardVirado)) {
                 pontuacao++;
-                verificaPontuacao ();
+                verificarPontuacao ();
             } else {
-
-
+                pontuacao--;
+                verificarPontuacao ();
 
 
                 Handler handle2 = new Handler ();
                 handle2.postDelayed (new Runnable () {
                     @Override
                     public void run() {
-                        ocultaCards (primeiroCardVirado, segundoCardVirado);
+                        ocultarCards (primeiroCardVirado, segundoCardVirado);
                         primeiroCardVirado.setClickable (true);
                         segundoCardVirado.setClickable (true);
 
@@ -242,7 +239,7 @@ public class Activity_game extends AppCompatActivity implements View.OnClickList
     }
 
     //metodo para embaralhamento dos cards
-    public void exibeCards() {
+    public void exibirCards() {
         Collections.shuffle (Arrays.asList (img));
         Collections.shuffle (Arrays.asList (buttons));
 
@@ -253,7 +250,7 @@ public class Activity_game extends AppCompatActivity implements View.OnClickList
     }
 
     //adiciona a capa sobre as imagens do background
-    public void escondeCards() {
+    public void esconderCards() {
         for (int i = 0; i < buttons.length; i++) {
             buttons[i].setImageResource (R.drawable.starwarsclassicred);
         }
@@ -261,31 +258,32 @@ public class Activity_game extends AppCompatActivity implements View.OnClickList
     }
 
 
-    public void viraCard(ImageButton cardJogado) {
+    public void virarCard(ImageButton cardJogado) {
         cardJogado.setImageResource (0);
 
     }
 
-    public void verificaPontuacao() {
+    public void verificarPontuacao() {
         if (pontuacao == 0) {
-            textAcertos.setTextColor (Color.RED);
-        } else if (pontuacao > 0) {
             textAcertos.setTextColor (Color.GREEN);
+        } else if (pontuacao > 0) {
+            textAcertos.setTextColor (Color.YELLOW);
+        } else if (pontuacao < 0) {
+            textAcertos.setTextColor (Color.RED);
         }
-        textAcertos.setText ("Total de Acertos:" + pontuacao);
+        textAcertos.setText ("Pontos:" + pontuacao);
     }
 
 
     //verifica se os cards virados sao iguais
-    public boolean comparaCards(ImageButton card1, ImageButton card2) {
+    public boolean compararCards(ImageButton card1, ImageButton card2) {
 
 
-
-            return card1.getBackground ().getConstantState ().equals (card2.getBackground ().getConstantState ());
+        return card1.getBackground ().getConstantState ().equals (card2.getBackground ().getConstantState ());
     }
 
     //oculta novamente os cards
-    public void ocultaCards(ImageButton card1, ImageButton card2) {
+    public void ocultarCards(ImageButton card1, ImageButton card2) {
         card1.setImageResource (R.drawable.starwarsclassicred);
         card2.setImageResource (R.drawable.starwarsclassicred);
 
