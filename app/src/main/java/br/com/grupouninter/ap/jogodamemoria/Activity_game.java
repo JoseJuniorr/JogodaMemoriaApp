@@ -71,26 +71,26 @@ public class Activity_game extends AppCompatActivity implements View.OnClickList
     //metodo principal
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate (savedInstanceState);
-        setContentView (R.layout.activity_game);
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_game);
 
-        playSound ();
-        inicializarComponents ();
-        inicializarArrays ();
-        adicionarListener ();
-        exibirCards ();
+        playSound();
+        inicializarComponents();
+        inicializarArrays();
+        adicionarListener();
+        exibirCards();
 
 
-        Handler handle1 = new Handler ();
-        handle1.postDelayed (new Runnable () {
+        Handler handle1 = new Handler();
+        handle1.postDelayed(new Runnable() {
             @Override
             public void run() {
-                esconderCards ();
+                esconderCards();
 
             }
         }, 5000);
 
-        restartActivity ();
+        restartActivity();
 
 //        view = new View(this);
 //        setContentView(view);
@@ -104,15 +104,41 @@ public class Activity_game extends AppCompatActivity implements View.OnClickList
 //
     }
 
+    //metodo para iniciar a musica tema Star Wars, ao voltar, reiniciar o jogo ou sair a musica é interrompida utilizando os metodos onPause e onDestroy
+    private void playSound() {
+        if (mediaPlayer != null) {
+            mediaPlayer.reset();
+        } else {
+            mediaPlayer = MediaPlayer.create(Activity_game.this, R.raw.starwarstheme);
+            mediaPlayer.start();
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (mediaPlayer != null) {
+            mediaPlayer.stop();
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (mediaPlayer != null) {
+            mediaPlayer.release();
+        }
+    }
+
 
     //metodo para reiniciar o jogo na mesma tela
     private void restartActivity() {
-        btnReinicarJogo.setOnClickListener (new View.OnClickListener () {
+        btnReinicarJogo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = getIntent ();
-                finish ();
-                startActivity (intent);
+                Intent intent = getIntent();
+                finish();
+                startActivity(intent);
 
             }
         });
@@ -121,28 +147,28 @@ public class Activity_game extends AppCompatActivity implements View.OnClickList
 
     //metodo para mapeamento os componentes da tela do jogo via id
     public void inicializarComponents() {
-        textAcertos = findViewById (R.id.textAcertos);
-        btn0 = findViewById (R.id.btn0);
-        btn1 = findViewById (R.id.btn1);
-        btn2 = findViewById (R.id.btn2);
-        btn3 = findViewById (R.id.btn3);
-        btn4 = findViewById (R.id.btn4);
-        btn5 = findViewById (R.id.btn5);
-        btn6 = findViewById (R.id.btn6);
-        btn7 = findViewById (R.id.btn7);
-        btn8 = findViewById (R.id.btn8);
-        btn9 = findViewById (R.id.btn9);
-        btn10 = findViewById (R.id.btn10);
-        btn11 = findViewById (R.id.btn11);
-        btn12 = findViewById (R.id.btn12);
-        btn13 = findViewById (R.id.btn13);
-        btn14 = findViewById (R.id.btn14);
-        btn15 = findViewById (R.id.btn15);
-        btn16 = findViewById (R.id.btn16);
-        btn17 = findViewById (R.id.btn17);
-        btn18 = findViewById (R.id.btn18);
-        btn19 = findViewById (R.id.btn19);
-        btnReinicarJogo = findViewById (R.id.btnReiniciar);
+        textAcertos = findViewById(R.id.textAcertos);
+        btn0 = findViewById(R.id.btn0);
+        btn1 = findViewById(R.id.btn1);
+        btn2 = findViewById(R.id.btn2);
+        btn3 = findViewById(R.id.btn3);
+        btn4 = findViewById(R.id.btn4);
+        btn5 = findViewById(R.id.btn5);
+        btn6 = findViewById(R.id.btn6);
+        btn7 = findViewById(R.id.btn7);
+        btn8 = findViewById(R.id.btn8);
+        btn9 = findViewById(R.id.btn9);
+        btn10 = findViewById(R.id.btn10);
+        btn11 = findViewById(R.id.btn11);
+        btn12 = findViewById(R.id.btn12);
+        btn13 = findViewById(R.id.btn13);
+        btn14 = findViewById(R.id.btn14);
+        btn15 = findViewById(R.id.btn15);
+        btn16 = findViewById(R.id.btn16);
+        btn17 = findViewById(R.id.btn17);
+        btn18 = findViewById(R.id.btn18);
+        btn19 = findViewById(R.id.btn19);
+        btnReinicarJogo = findViewById(R.id.btnReiniciar);
     }
 
     //metodo para inicializar os arrays de botoes e imagens
@@ -161,10 +187,10 @@ public class Activity_game extends AppCompatActivity implements View.OnClickList
 
     }
 
-    //onclick de todos os buttons na mesma classe
+    //onclick do array dos buttons no mesmo metodo e logica do jogo
     public void adicionarListener() {
         for (int i = 0; i < buttons.length; i++) {
-            buttons[i].setOnClickListener (this);
+            buttons[i].setOnClickListener(this);
         }
     }
 
@@ -174,32 +200,32 @@ public class Activity_game extends AppCompatActivity implements View.OnClickList
 
         if (cardsVirados == 0) {
             primeiroCardVirado = cardJogado;
-            virarCard (cardJogado);
+            virarCard(cardJogado);
             cardsVirados = 1;
-            primeiroCardVirado.setClickable (false);
+            primeiroCardVirado.setClickable(false);
 
         } else {
             segundoCardVirado = cardJogado;
             cardsVirados = 0;
-            virarCard (segundoCardVirado);
-            segundoCardVirado.setClickable (false);
+            virarCard(segundoCardVirado);
+            segundoCardVirado.setClickable(false);
 
 
-            if (compararCards (primeiroCardVirado, segundoCardVirado)) {
+            if (compararCards(primeiroCardVirado, segundoCardVirado)) {
                 pontuacao++;
-                verificarPontuacao ();
+                verificarPontuacao();
             } else {
                 pontuacao--;
-                verificarPontuacao ();
+                verificarPontuacao();
 
-
-                Handler handle2 = new Handler ();
-                handle2.postDelayed (new Runnable () {
+                //delay das duas cartas para comparacão, funcao handler
+                Handler handle2 = new Handler();
+                handle2.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        ocultarCards (primeiroCardVirado, segundoCardVirado);
-                        primeiroCardVirado.setClickable (true);
-                        segundoCardVirado.setClickable (true);
+                        ocultarCards(primeiroCardVirado, segundoCardVirado);
+                        primeiroCardVirado.setClickable(true);
+                        segundoCardVirado.setClickable(true);
 
                     }
                 }, 1000);
@@ -212,80 +238,57 @@ public class Activity_game extends AppCompatActivity implements View.OnClickList
 
     }
 
-    //metodo para iniciar a musica tema Star Wars, ao voltar, reiniciar o jogo ou sair a musica é interrompida utilizando os metodos onPause e onDestroy
-    private void playSound() {
-        if (mediaPlayer != null) {
-            mediaPlayer.reset ();
-        } else {
-            mediaPlayer = MediaPlayer.create (Activity_game.this, R.raw.starwarstheme);
-            mediaPlayer.start ();
-        }
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause ();
-        if (mediaPlayer != null) {
-            mediaPlayer.stop ();
-        }
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy ();
-        if (mediaPlayer != null) {
-            mediaPlayer.release ();
-        }
-    }
 
     //metodo para embaralhamento dos cards
     public void exibirCards() {
-        Collections.shuffle (Arrays.asList (img));
-        Collections.shuffle (Arrays.asList (buttons));
+        Collections.shuffle(Arrays.asList(img));
+        Collections.shuffle(Arrays.asList(buttons));
 
         for (int i = 0; i < buttons.length; i++)
-            buttons[i].setBackgroundResource (img[i]);
+            buttons[i].setBackgroundResource(img[i]);
 
 
     }
 
-    //adiciona a capa sobre as imagens do background
+    //metodo para adicionar a capa nas imagens, incrementa a capa sobre a quantidade de buttons
     public void esconderCards() {
         for (int i = 0; i < buttons.length; i++) {
-            buttons[i].setImageResource (R.drawable.starwarsclassicred);
+            buttons[i].setImageResource(R.drawable.starwarsclassicred);
         }
 
     }
 
 
     public void virarCard(ImageButton cardJogado) {
-        cardJogado.setImageResource (0);
+        cardJogado.setImageResource(0);
 
     }
 
+    //metodo de verificacao do placar
     public void verificarPontuacao() {
         if (pontuacao == 0) {
-            textAcertos.setTextColor (Color.GREEN);
+            textAcertos.setTextColor(Color.GREEN);
         } else if (pontuacao > 0) {
-            textAcertos.setTextColor (Color.YELLOW);
+            textAcertos.setTextColor(Color.YELLOW);
         } else if (pontuacao < 0) {
-            textAcertos.setTextColor (Color.RED);
+            textAcertos.setTextColor(Color.RED);
         }
-        textAcertos.setText ("Pontos:" + pontuacao);
+        textAcertos.setText("Pontos:" + pontuacao);
     }
 
 
-    //verifica se os cards virados sao iguais
+    //metodo booleano, verifica se os cards virados sao iguais
     public boolean compararCards(ImageButton card1, ImageButton card2) {
 
 
-        return card1.getBackground ().getConstantState ().equals (card2.getBackground ().getConstantState ());
+        return card1.getBackground().getConstantState().equals(card2.getBackground().getConstantState());
     }
+
 
     //oculta novamente os cards
     public void ocultarCards(ImageButton card1, ImageButton card2) {
-        card1.setImageResource (R.drawable.starwarsclassicred);
-        card2.setImageResource (R.drawable.starwarsclassicred);
+        card1.setImageResource(R.drawable.starwarsclassicred);
+        card2.setImageResource(R.drawable.starwarsclassicred);
 
     }
 
