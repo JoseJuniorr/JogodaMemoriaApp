@@ -67,7 +67,7 @@ public class Activity_game extends AppCompatActivity implements View.OnClickList
     private MediaPlayer mediaPlayer;
 
 
-    //metodo principal
+    //metodo onCreate
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate (savedInstanceState);
