@@ -18,8 +18,8 @@ import java.util.Collections;
 
 public class Activity_game extends AppCompatActivity implements View.OnClickListener {
 
-    private int cardsVirados = 0; //verifica qntdade de cards que estao virados, inicializa em 0
-    private int pontuacao = 0; //qtdade de acertos
+    private int cardsVirados = 0;
+    private int pontuacao = 0;
     private Button btnReinicarJogo;
     private TextView textAcertos;
     private ImageButton primeiroCardVirado;
@@ -67,7 +67,7 @@ public class Activity_game extends AppCompatActivity implements View.OnClickList
     private MediaPlayer mediaPlayer;
 
 
-    //metodo onCreate
+    //metodo onCreate, chamada dos demais metodos
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate (savedInstanceState);
@@ -82,6 +82,7 @@ public class Activity_game extends AppCompatActivity implements View.OnClickList
         verificarPontuacao ();
 
 
+        //delay de 5s para esconder as cartas no inicio do jogo
         Handler handle1 = new Handler ();
         handle1.postDelayed (new Runnable () {
             @Override
@@ -152,13 +153,14 @@ public class Activity_game extends AppCompatActivity implements View.OnClickList
 
     }
 
-    //metodo onclick de todos os buttons atraves de um array
+    //metodo setonclicklistener utilizando o array de botoes com laço for
     public void adicionarListener() {
         for (int i = 0; i < buttons.length; i++) {
             buttons[i].setOnClickListener (this);
         }
     }
 
+    //metodo onclick, if else das jogadas, comparacao dos cards jogados e incrementa os pontos
     @Override
     public void onClick(View v) {
 
@@ -185,7 +187,7 @@ public class Activity_game extends AppCompatActivity implements View.OnClickList
                 pontuacao--;
                 verificarPontuacao ();
 
-
+                //delay de 1s ao esconder as cartas jogadas novamente
                 Handler handle2 = new Handler ();
                 handle2.postDelayed (new Runnable () {
                     @Override
@@ -242,7 +244,7 @@ public class Activity_game extends AppCompatActivity implements View.OnClickList
 
     }
 
-    //adiciona a capa sobre as imagens do background
+    //adiciona a capa sobre as imagens do background utilizando setImageResource
     public void esconderCards() {
         for (int i = 0; i < buttons.length; i++) {
             buttons[i].setImageResource (R.drawable.starwarsclassicred);
@@ -250,12 +252,13 @@ public class Activity_game extends AppCompatActivity implements View.OnClickList
 
     }
 
-
+    //metodo que mostra a imagem que esta embaixo da capa, utilizando o valor 0 a imagem de capa é simplesmente retirada
     public void virarCard(ImageButton cardJogado) {
         cardJogado.setImageResource (0);
 
     }
 
+    //verificacao do pontuacao
     public void verificarPontuacao() {
         if (pontuacao == 0) {
             textAcertos.setTextColor (Color.GREEN);
@@ -268,14 +271,16 @@ public class Activity_game extends AppCompatActivity implements View.OnClickList
     }
 
 
-    //metodo booleano de comparacao
+    //metodo booleano de comparacao dos dois cards jogados, retorna se as imagens sao iguais
     public boolean compararCards(ImageButton card1, ImageButton card2) {
 
 
         return card1.getBackground ().getConstantState ().equals (card2.getBackground ().getConstantState ());
+
+
     }
 
-    //oculta novamente os cards
+    //oculta novamente os cards, setando as imagens de capa
     public void ocultarCards(ImageButton card1, ImageButton card2) {
         card1.setImageResource (R.drawable.starwarsclassicred);
         card2.setImageResource (R.drawable.starwarsclassicred);
