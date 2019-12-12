@@ -3,7 +3,6 @@ package br.com.grupouninter.ap.jogodamemoria;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -252,9 +251,12 @@ public class Activity_game extends AppCompatActivity implements View.OnClickList
 
     }
 
-    //metodo que mostra a imagem que esta embaixo da capa, utilizando o valor 0 a imagem de capa é simplesmente retirada
+    //metodo que mostra a imagem que esta embaixo da capa, utilizando o recurso transparent do android
     public void virarCard(ImageButton cardJogado) {
-        cardJogado.setImageResource (0);
+        cardJogado.setImageResource (android.R.color.transparent);
+
+
+
 
     }
 
@@ -284,6 +286,7 @@ public class Activity_game extends AppCompatActivity implements View.OnClickList
     public void ocultarCards(ImageButton card1, ImageButton card2) {
         card1.setImageResource (R.drawable.starwarsclassicred);
         card2.setImageResource (R.drawable.starwarsclassicred);
+
 
     }
 
