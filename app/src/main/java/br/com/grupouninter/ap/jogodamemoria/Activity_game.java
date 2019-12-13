@@ -2,6 +2,7 @@ package br.com.grupouninter.ap.jogodamemoria;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.media.MediaPlayer;
@@ -17,10 +18,12 @@ import java.util.Collections;
 
 public class Activity_game extends AppCompatActivity implements View.OnClickListener {
 
-    private int cardsVirados = 0;
-    private int pontuacao = 0;
+    private int cardsVirados = 0; //qtd de cards virados
+    private int ptsJogador = 0;
+    private int ptsCPU = 0;
     private Button btnReinicarJogo;
-    private TextView textAcertos;
+    private TextView textJogador;
+    private TextView textCPU;
     private ImageButton primeiroCardVirado;
     private ImageButton segundoCardVirado;
     private ImageButton btn0;
@@ -77,7 +80,7 @@ public class Activity_game extends AppCompatActivity implements View.OnClickList
         inicializarComponents ();
         inicializarArrays ();
         adicionarListener ();
-        exibirCards ();
+        embaralharCards ();
         verificarPontuacao ();
 
 
@@ -93,26 +96,16 @@ public class Activity_game extends AppCompatActivity implements View.OnClickList
 
         restartActivity ();
 
-    }
+        checkEnd ();
 
 
-    //metodo para reiniciar o jogo na mesma tela
-    private void restartActivity() {
-        btnReinicarJogo.setOnClickListener (new View.OnClickListener () {
-            @Override
-            public void onClick(View v) {
-                Intent intent = getIntent ();
-                finish ();
-                startActivity (intent);
-
-            }
-        });
     }
 
 
     //metodo de inicializacao dos componentes da tela
     public void inicializarComponents() {
-        textAcertos = findViewById (R.id.textAcertos);
+        textJogador = findViewById (R.id.textJogador);
+        textCPU = findViewById (R.id.textCPU);
         btn0 = findViewById (R.id.btn0);
         btn1 = findViewById (R.id.btn1);
         btn2 = findViewById (R.id.btn2);
@@ -159,12 +152,29 @@ public class Activity_game extends AppCompatActivity implements View.OnClickList
         }
     }
 
+    //metodo para embaralhamento dos cards
+    public void embaralharCards() {
+        Collections.shuffle (Arrays.asList (img));
+        Collections.shuffle (Arrays.asList (buttons));
+
+        for (int i = 0; i < buttons.length; i++)
+            buttons[i].setBackgroundResource (img[i]);
+
+    }
+
+    //adiciona a capa sobre as imagens do background utilizando setImageResource
+    public void esconderCards() {
+        for (int i = 0; i < buttons.length; i++) {
+            buttons[i].setImageResource (R.drawable.starwarsclassicred);
+        }
+
+    }
+
+
     //metodo onclick, if else das jogadas, comparacao dos cards jogados e incrementa os pontos
     @Override
-    public void onClick(View v) {
-
-
-        ImageButton cardJogado = (ImageButton) v;
+    public void onClick(View view) {
+        ImageButton cardJogado = (ImageButton) view;
 
         if (cardsVirados == 0) {
             primeiroCardVirado = cardJogado;
@@ -180,11 +190,15 @@ public class Activity_game extends AppCompatActivity implements View.OnClickList
 
 
             if (compararCards (primeiroCardVirado, segundoCardVirado)) {
-                pontuacao++;
+                ptsJogador++;
                 verificarPontuacao ();
+                checkEnd ();
+
+
             } else {
-                pontuacao--;
+                ptsCPU++;
                 verificarPontuacao ();
+
 
                 //delay de 1s ao esconder as cartas jogadas novamente
                 Handler handle2 = new Handler ();
@@ -198,13 +212,78 @@ public class Activity_game extends AppCompatActivity implements View.OnClickList
                     }
                 }, 1000);
 
-
             }
 
 
         }
 
     }
+
+
+    //metodo que mostra a imagem que esta embaixo da capa, utilizando o recurso transparent do android
+    public void virarCard(ImageButton cardJogado) {
+        cardJogado.setImageResource (android.R.color.transparent);
+
+    }
+
+    //metodo booleano de comparacao dos dois cards jogados, retorna se as imagens sao iguais
+    public boolean compararCards(ImageButton card1, ImageButton card2) {
+
+
+        return card1.getBackground ().getConstantState ().equals (card2.getBackground ().getConstantState ());
+
+
+    }
+
+    //verificacao do pontuacao
+    public void verificarPontuacao() {
+        if (ptsJogador == 0) {
+            textJogador.setTextColor (Color.RED);
+        } else if (ptsJogador > 0) {
+            textJogador.setTextColor (Color.YELLOW);
+        }
+        textJogador.setText ("Jogador: " + ptsJogador);
+
+        if (ptsCPU == 0) {
+            textCPU.setTextColor (Color.RED);
+        } else if (ptsCPU > 0) {
+            textCPU.setTextColor (Color.YELLOW);
+        }
+        textCPU.setText ("CPU: " + ptsCPU);
+    }
+
+
+    //oculta novamente os cards, setando as imagens de capa
+    public void ocultarCards(ImageButton card1, ImageButton card2) {
+        card1.setImageResource (R.drawable.starwarsclassicred);
+        card2.setImageResource (R.drawable.starwarsclassicred);
+
+
+    }
+    //em andamento, falta implementar algumas opçoes
+    public void checkEnd() {
+        if (ptsJogador >= 10) {
+            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder (Activity_game.this);
+            alertDialogBuilder.setMessage ("Fim de Jogo!");
+            alertDialogBuilder.show ();
+
+        }
+    }
+
+
+    //metodo para reiniciar o jogo na mesma tela
+    private void restartActivity() {
+        btnReinicarJogo.setOnClickListener (new View.OnClickListener () {
+            @Override
+            public void onClick(View v) {
+                Intent intent = getIntent ();
+                finish ();
+                startActivity (intent);
+
+            }
+        });
+    }
+
 
     //metodo para iniciar a musica tema Star Wars, ao voltar, reiniciar o jogo ou sair a musica é interrompida utilizando os metodos onPause e onDestroy
     private void playSound() {
@@ -230,64 +309,6 @@ public class Activity_game extends AppCompatActivity implements View.OnClickList
         if (mediaPlayer != null) {
             mediaPlayer.release ();
         }
-    }
-
-    //metodo para embaralhamento dos cards
-    public void exibirCards() {
-        Collections.shuffle (Arrays.asList (img));
-        Collections.shuffle (Arrays.asList (buttons));
-
-        for (int i = 0; i < buttons.length; i++)
-            buttons[i].setBackgroundResource (img[i]);
-
-
-    }
-
-    //adiciona a capa sobre as imagens do background utilizando setImageResource
-    public void esconderCards() {
-        for (int i = 0; i < buttons.length; i++) {
-            buttons[i].setImageResource (R.drawable.starwarsclassicred);
-        }
-
-    }
-
-    //metodo que mostra a imagem que esta embaixo da capa, utilizando o recurso transparent do android
-    public void virarCard(ImageButton cardJogado) {
-        cardJogado.setImageResource (android.R.color.transparent);
-
-
-
-
-    }
-
-    //verificacao do pontuacao
-    public void verificarPontuacao() {
-        if (pontuacao == 0) {
-            textAcertos.setTextColor (Color.GREEN);
-        } else if (pontuacao > 0) {
-            textAcertos.setTextColor (Color.YELLOW);
-        } else if (pontuacao < 0) {
-            textAcertos.setTextColor (Color.RED);
-        }
-        textAcertos.setText ("Pontos:" + pontuacao);
-    }
-
-
-    //metodo booleano de comparacao dos dois cards jogados, retorna se as imagens sao iguais
-    public boolean compararCards(ImageButton card1, ImageButton card2) {
-
-
-        return card1.getBackground ().getConstantState ().equals (card2.getBackground ().getConstantState ());
-
-
-    }
-
-    //oculta novamente os cards, setando as imagens de capa
-    public void ocultarCards(ImageButton card1, ImageButton card2) {
-        card1.setImageResource (R.drawable.starwarsclassicred);
-        card2.setImageResource (R.drawable.starwarsclassicred);
-
-
     }
 
 

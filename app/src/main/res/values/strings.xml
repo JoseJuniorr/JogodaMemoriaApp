@@ -1,7 +1,8 @@
 <resources>
     <string name="app_name">Jogo da Memoria</string>
     <string name="novo_jogo">NOVO JOGO</string>
-    <string name="pontos">Pontos: </string>
+    <string name="Jogador">Jogador: </string>
+    <string name="CPU">CPU: </string>
     <string name="splashScreen">MEMORY GAME</string>
     <string name="splashScreenMsg">May the Force Be With You</string>
     <string name="btnReinciarJogo">REINICIAR JOGO</string>

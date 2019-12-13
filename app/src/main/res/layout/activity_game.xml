@@ -25,7 +25,7 @@
         app:layout_constraintBottom_toTopOf="@+id/btnReiniciar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textAcertos">
+        app:layout_constraintTop_toBottomOf="@+id/textJogador">
 
         <TableRow
             android:layout_width="match_parent"
@@ -156,23 +156,37 @@
     </TableLayout>
 
     <TextView
-        android:id="@+id/textAcertos"
-        android:layout_width="325dp"
-        android:layout_height="43dp"
-        android:layout_marginStart="43dp"
-        android:layout_marginLeft="43dp"
+        android:id="@+id/textJogador"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="42dp"
         android:layout_marginRight="42dp"
         android:layout_marginBottom="42dp"
-        android:text="@string/pontos"
+        android:text="@string/Jogador"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:textSize="24sp"
         app:layout_constraintBottom_toTopOf="@+id/tableLayout"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.156"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textCPU"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="42dp"
+        android:layout_marginRight="42dp"
+        android:text="@string/CPU"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@+id/tableLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.135"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textJogador"
+        app:layout_constraintVertical_bias="0.357" />
 
     <Button
         android:id="@+id/btnReiniciar"
@@ -191,6 +205,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tableLayout" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
 
 
