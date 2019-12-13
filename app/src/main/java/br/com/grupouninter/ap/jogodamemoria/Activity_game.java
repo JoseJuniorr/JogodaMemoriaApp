@@ -13,8 +13,10 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Random;
 
 public class Activity_game extends AppCompatActivity implements View.OnClickListener {
 
@@ -65,6 +67,8 @@ public class Activity_game extends AppCompatActivity implements View.OnClickList
 
     private ImageButton[] buttons; //array de botoes
     private int[] img; //array das imagens
+    private String[] frases;
+
 
     private MediaPlayer mediaPlayer;
 
@@ -143,6 +147,18 @@ public class Activity_game extends AppCompatActivity implements View.OnClickList
                 chewbacca, luke
         };
 
+        //pensamentos do Yoda mostrados ao terminar o jogo ^^
+        frases = new String[] {
+                " Faça ou não faça. A tentativa não existe. Yoda",
+                "Que a Força esteja com você! Yoda",
+                "Treinar para libertar-se de tudo que tens medo a perder é necessário. Yoda",
+                "Grande guerreiro? Guerra não faz grande ninguém."
+
+
+        };
+
+
+
     }
 
     //metodo setonclicklistener utilizando o array de botoes com laço for
@@ -151,6 +167,7 @@ public class Activity_game extends AppCompatActivity implements View.OnClickList
             buttons[i].setOnClickListener (this);
         }
     }
+
 
     //metodo para embaralhamento dos cards
     public void embaralharCards() {
@@ -262,11 +279,20 @@ public class Activity_game extends AppCompatActivity implements View.OnClickList
     }
     //em andamento, falta implementar algumas opçoes
     public void checkEnd() {
-        if (ptsJogador >= 10) {
-            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder (Activity_game.this);
-            alertDialogBuilder.setMessage ("Fim de Jogo!");
-            alertDialogBuilder.show ();
 
+        int numero = new Random ().nextInt (frases.length);
+
+
+        if (ptsJogador == 10) {
+            AlertDialog.Builder alert = new AlertDialog.Builder (Activity_game.this);
+            alert.setMessage ("Fim de Jogo Jedi!");
+            alert.setMessage (frases[numero]);
+            alert.show ();
+
+        }else if (ptsCPU == 20 ){
+            AlertDialog.Builder alert = new AlertDialog.Builder (this);
+            alert.setMessage ("Fim de Jogo! Melhor professor, o fracasso é. Yoda ");
+            alert.show ();
         }
     }
 
